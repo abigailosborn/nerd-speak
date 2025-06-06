@@ -1,13 +1,36 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Lexer{
-    public static void main(String[] args){
-        Scanner scr = new Scanner(System.in);
-        String current_line = scr.nextLine();
-        //break each line into words/characters depending
-        String[] words = current_line.split(" ");
-        ArrayList<Token> tokens = new ArrayList<Token>();
+    public static String file_extension = "";
+    public static String[] words;
+    public static String current_line;
+    public static Scanner file_scan;
+    public static final String FILE_NAME = "hi.dnd";
+    public static ArrayList<Token> tokens = new ArrayList<Token>();
+    public static void lex_text(){
+        //read in the file for the lexer
+        get_file_extension(FILE_NAME);
+        if(file_extension.equals("dnd")){
+            //read in the file
+            try{
+                File dnd_file = new File(FILE_NAME);
+
+                file_scan = new Scanner(dnd_file);
+                current_line = file_scan.nextLine();
+                //break each line into words/characters depending
+                words = current_line.split(" ");
+
+            }
+            catch(Exception e){
+                System.out.println("File could not be found");
+            }
+        }
+        else{
+            System.out.println("Incorrect file extension");
+        }
+
         while(!current_line.equals("I cast fireball")){
             for(int i = 0; i < words.length; i++){
                 //indentify dice
@@ -65,7 +88,7 @@ public class Lexer{
             }
 
            //reset current line add words by reading in the next line 
-           current_line = scr.nextLine();
+           current_line = file_scan.nextLine();
            words = current_line.split(" ");
         }
 
@@ -73,5 +96,22 @@ public class Lexer{
             System.out.println(token.type + " " + token.value);
         }
 
+    }
+    public static void read_input(String file_name){
+        String file_extension = "";
+        Scanner scr = new Scanner(System.in);
+
+        //get file extension
+        get_file_extension(file_name);
+    }
+
+    
+    //get all commands from the file and place tham on the stack
+    //public 
+
+    //get the extension of the file 
+    public static void get_file_extension(String file_name){
+        String[] temp = file_name.split("\\.");
+        file_extension = temp[1];
     }
 }
