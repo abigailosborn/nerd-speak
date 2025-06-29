@@ -1,5 +1,6 @@
 hello
 d4 strength bless d6 intelligence
 * hello world * 
-I cast message
+I cast message /*
+strength DC d6
 I cast fireball

@@ -8,7 +8,8 @@ public class Lexer{
     public static String current_line;
     public static Scanner file_scan;
     public static final String FILE_NAME = "hi.dnd";
-    public static void main(String[] args){
+    public static ArrayList<Token> tokens = new ArrayList<Token>();
+    public static void lex_text(){
         //read in the file for the lexer
         get_file_extension(FILE_NAME);
         if(file_extension.equals("dnd")){
@@ -30,18 +31,12 @@ public class Lexer{
             System.out.println("Incorrect file extension");
         }
 
-
-
-        ArrayList<Token> tokens = new ArrayList<Token>();
         while(!current_line.equals("I cast fireball")){
             for(int i = 0; i < words.length; i++){
                 //indentify dice
                 if(words[i].equals("d4") || words[i].equals("d6") || words[i].equals("d8") || words[i].equals("d10") || words[i].equals("d12") || words[i].equals("d20") || words[i].equals("d100")){
                     //create a token for this variable
                     tokens.add(new Token(Token.TokenType.DICE, words[i]));
-                    // get the name of the integer variable
-                    i++;
-                    tokens.add(new Token(Token.TokenType.IDENTIFIER, words[i]));
                 }
                 else if(words[i].equals("*")){
                     String current_word = words[i + 1];
@@ -80,12 +75,13 @@ public class Lexer{
                 else if(words[i].equals("DC")){
                     tokens.add(new Token(Token.TokenType.EQUAL, "="));
                 }
-                else if(words[i].equals("message")){
-                    tokens.add(new Token(Token.TokenType.KEYWORD, words[i]));
+                //this is the equivalent of (), it is for FUNCTION CALLS
+                else if(words[i].equals("/*")){
+                    tokens.add(new Token(Token.TokenType.PAREN, "/*"));
                 }
-                //store the nonsense words, there will probably be a lot 
+                //store other words, the parser will handle this later 
                 else{
-                    tokens.add(new Token(Token.TokenType.DRIVEL, words[i]));
+                    tokens.add(new Token(Token.TokenType.IDENTIFIER, words[i]));
                 }
             }
 

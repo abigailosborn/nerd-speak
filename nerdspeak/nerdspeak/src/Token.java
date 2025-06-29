@@ -9,7 +9,7 @@ public class Token {
         DIVIDE,
         KEYWORD,
         EQUAL,
-        DRIVEL
+        PAREN
     }
 
     public final TokenType type;
