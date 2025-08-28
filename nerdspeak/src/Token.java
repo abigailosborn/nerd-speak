@@ -9,6 +9,9 @@ public class Token {
         DIVIDE,
         KEYWORD,
         EQUAL,
+        LPAREN,
+        RPAREN,
+        COMMA,
         DRIVEL
     }
 

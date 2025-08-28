@@ -37,9 +37,6 @@ public class Lexer{
                 if(words[i].equals("d4") || words[i].equals("d6") || words[i].equals("d8") || words[i].equals("d10") || words[i].equals("d12") || words[i].equals("d20") || words[i].equals("d100")){
                     //create a token for this variable
                     tokens.add(new Token(Token.TokenType.DICE, words[i]));
-                    // get the name of the integer variable
-                    i++;
-                    tokens.add(new Token(Token.TokenType.IDENTIFIER, words[i]));
                 }
                 else if(words[i].equals("*")){
                     String current_word = words[i + 1];
@@ -78,12 +75,22 @@ public class Lexer{
                 else if(words[i].equals("DC")){
                     tokens.add(new Token(Token.TokenType.EQUAL, "="));
                 }
-                else if(words[i].equals("message")){
-                    tokens.add(new Token(Token.TokenType.KEYWORD, words[i]));
+                //this is the equivalent of (), it is for FUNCTION CALLS
+                else if(words[i].equals("/*")){
+                    tokens.add(new Token(Token.TokenType.LPAREN, "/*"));
                 }
-                //store the nonsense words, there will probably be a lot 
-                else{
+                 else if(words[i].equals("*\\")){
+                    tokens.add(new Token(Token.TokenType.RPAREN, "*\\"));
+                }
+                else if(words[i].equals(",")){
+                    tokens.add(new Token(Token.TokenType.COMMA, ","));
+                }
+                else if(words[i].equals("I") || words[i].equals("cast")){
                     tokens.add(new Token(Token.TokenType.DRIVEL, words[i]));
+                }
+                //store other words, the parser will handle this later 
+                else{
+                    tokens.add(new Token(Token.TokenType.IDENTIFIER, words[i]));
                 }
             }
 
